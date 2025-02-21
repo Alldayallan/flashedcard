@@ -11,7 +11,7 @@ import SwiftUI
 struct FlashedApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            TopicView()
         }
     }
 }
