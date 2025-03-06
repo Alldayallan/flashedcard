@@ -1,9 +1,4 @@
-//
-//  FillBarView.swift
-//  Flashed
-//
-//  Created by Allan Reid on 3/4/25.
-//
+
 
 import SwiftUI
 
@@ -23,10 +18,18 @@ struct FillBarView: View {
                     .fill(colorBG.opacity(opacity))
                     .frame(width: .infinity, height: barWidth)
                 
-                // The foreground bar
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(colorFill.opacity(opacity))
-                    .frame(width: geometry.size.width*percentage, height: barWidth)
+                ZStack {
+                    // The foreground bar
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(.white.opacity(opacity / 2))
+                        .frame(width: geometry.size.width*percentage - 10, height: 0.3*barWidth)
+                        .offset(y: -1)
+                    
+                    // Light
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(colorFill.opacity(opacity))
+                        .frame(width: geometry.size.width*percentage, height: barWidth)
+                }
             }
         }
     }
