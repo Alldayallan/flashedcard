@@ -63,6 +63,15 @@ struct CardView: View {
         )
         .clipShape(.rect(cornerRadius: cornerRadius))
         .padding()
+        .gesture(
+            DragGesture()
+                .onChanged({ gesture in
+                    //
+                })
+                .onEnded({ _ in
+                    //
+                })
+            )
     }
 }
 
