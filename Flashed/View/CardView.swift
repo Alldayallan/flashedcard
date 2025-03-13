@@ -2,7 +2,7 @@
 import SwiftUI
 
 struct CardView: View {
-    @State private var rotate = true
+    @State private var rotate = false
     @State private var offset = CGSize.zero
     @State private var scaleFactor = 1.0
     
@@ -23,6 +23,38 @@ struct CardView: View {
     let cornerRadius = 10.0
     let lowerRectangleHeight = 80.0
     
+    // Gestures
+    var drag: some Gesture {
+        DragGesture()
+            .onChanged{ gesture in
+                //
+                offset = gesture.translation
+            }
+            .onEnded{ _ in
+                //
+                if abs(offset.width) > 100 {
+                    removeCard()
+                } else {
+                    offset = .zero
+                }
+            }
+    }
+    var magnify: some Gesture {
+        MagnifyGesture()
+            .onChanged{ gesture in
+                //
+                withAnimation {
+                    scaleFactor = gesture.magnification
+                }
+            }
+            .onEnded { _ in
+                //
+                withAnimation {
+                    scaleFactor = 1.0
+                }
+            }
+    }
+    
     var body: some View {
         ZStack {
             TwoSidedBackgroundView(
@@ -40,6 +72,7 @@ struct CardView: View {
                     imageName: currentImageName,
                     rotate: rotate
                 )
+                .scaleEffect(scaleFactor)
                 
                 Spacer()
 
@@ -63,15 +96,18 @@ struct CardView: View {
         )
         .clipShape(.rect(cornerRadius: cornerRadius))
         .padding()
+        .offset(x: offset.width * 2, y: offset.height * 0.4)
         .gesture(
-            DragGesture()
-                .onChanged({ gesture in
-                    //
-                })
-                .onEnded({ _ in
-                    //
-                })
+            drag
             )
+        .gesture(
+            magnify
+        )
+        .onTapGesture {
+            withAnimation {
+                rotate.toggle()
+            }
+        }
     }
 }
 
