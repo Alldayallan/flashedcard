@@ -21,7 +21,10 @@ struct QuestionsView: View {
             Color.gray.opacity(0.3).ignoresSafeArea()
             
             VStack {
-                Text("HEADER")
+                HeaderView(topic: topic, questionNumber: currentQuestionIndex, numberOfQuestions: numberOfQuestions, colorBG: .gray, colorFill: .purple, dismissFunc: {
+                    dismiss()
+                })
+                           
                 
                 // Pile of cards
                 ZStack {
